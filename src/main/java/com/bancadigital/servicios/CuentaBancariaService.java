@@ -1,6 +1,6 @@
 package com.bancadigital.servicios;
 
-import com.bancadigital.entidades.Cliente;
+import com.bancadigital.dtos.*;
 import com.bancadigital.entidades.CuentaCredito;
 import com.bancadigital.entidades.CuentaAhorro;
 import com.bancadigital.entidades.CuentaBancaria;
@@ -12,15 +12,21 @@ import java.util.List;
 
 public interface CuentaBancariaService {
 
-    Cliente saveCliente (Cliente cliente);
+    ClienteDTO guardarCliente(ClienteDTO clienteDTO);
 
-    CuentaCredito crearCuentaBancariaCredito(double balanceInicial, double sobregiro, Long clienteId) throws ClienteNoEncontradoException;
+    ClienteDTO getCliente(Long clienteId) throws ClienteNoEncontradoException;
 
-    CuentaAhorro crearCuentaBancariaAhorro(double balanceInicial, double tasaInteres, Long clienteId) throws ClienteNoEncontradoException;
+    ClienteDTO actualizarCliente( ClienteDTO clienteDTO) throws ClienteNoEncontradoException;
 
-    List <Cliente> listarClientes();
+    void borrarCliente(Long id) throws ClienteNoEncontradoException;
 
-    CuentaBancaria getCuentaBancaria(String cuentaId) throws CuentaBancariaNoEncontradaException;
+    CuentaCreditoDTO crearCuentaBancariaCredito(double balanceInicial, double sobregiro, Long clienteId) throws ClienteNoEncontradoException;
+
+    CuentaAhorroDTO crearCuentaBancariaAhorro(double balanceInicial, double tasaInteres, Long clienteId) throws ClienteNoEncontradoException;
+
+    List <ClienteDTO> listarClientes();
+
+    CuentaBancariaDTO getCuentaBancaria(String cuentaId) throws CuentaBancariaNoEncontradaException;
 
     void debit(String cuentaId, double monto, String descripcion) throws CuentaBancariaNoEncontradaException, BalanceInsuficienteException;
 
@@ -28,5 +34,7 @@ public interface CuentaBancariaService {
 
     void transferirDinero (String idPropietario, String idDestinatario, double monto) throws CuentaBancariaNoEncontradaException, BalanceInsuficienteException;
 
-    List<CuentaBancaria> listarCuentasBancarias();
+    List<CuentaBancariaDTO> listarCuentasBancarias();
+
+    List<OperacionCuentaDTO> listarOperacionesCuentas(String cuentaId);
 }
